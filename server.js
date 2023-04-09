@@ -12,7 +12,6 @@ const testConnectionMiddleware = require('./assets/testConnection');
 const server = express();
 const port = process.env.PORT;
 
-
 //Test the connection middleware
 server.use(testConnectionMiddleware);
 server.get('/api', (req, res) => {
@@ -23,7 +22,6 @@ server.get('/api', (req, res) => {
       });
     }
 });
-
 
 //Cors for cross origin allowance
 const cors=require("cors");
@@ -44,8 +42,6 @@ server.use(helmet());
 
 //Use the cookieSession function
 cookieSession(server);
-
-
 
 //API auto documentation (Swagger)
 const swaggerOptions = {

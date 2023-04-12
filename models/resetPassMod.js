@@ -1,4 +1,5 @@
 const EmailService = require('../assets/mailService.js');
+const crypto = require('crypto');
 
 // Create an in-memory data store for password reset tokens
 const resetTokens = new Map();
@@ -23,7 +24,7 @@ async function forgotPassReq(req, res, next) {
       const { email } = req.body;
   
       // Generate a password reset token
-      const resetToken = crypto.randomBytes(20).toString('hex');
+      const resetToken = crypto.randomBytes(3).toString('hex');
   
       // Save the reset token and its creation time to the in-memory data store
       resetTokens.set(email, { token: resetToken, createdAt: Date.now() });
@@ -32,34 +33,48 @@ async function forgotPassReq(req, res, next) {
       await EmailService.sendPasswordResetEmail(email, resetToken);
   
       // Send a success response
-      res.status(200).json({ message: 'Password reset email sent' });
+      return message = { message: 'Password reset email sent' };
     } catch (error) {
       console.error('Error handling forgot password request:', error);
-      next(error);
+      throw error;
     }
   }
   
 
 const bcrypt = require('bcrypt');
- const { update } = require('./usersMod');
+const { update } = require('./usersMod');
   
 // Handle password reset requests
-async function resetPass(req, res, next) {
+async function resetPass(req, res) {
     try {
+      console.log('Iniciate Reset Password Request');
+      console.log('Request: ', req);
+      console.log('Reset Tokens: ', resetTokens);
       // Get the reset token and new password from the request body
-      const { token, password } = req.body;
+      //const email = req.email;
+      const reqToken = req.token;
+      const password = req.password;
+      
   
-      // Remove expired tokens from the in-memory data store
+      // // Remove expired tokens from the in-memory data store
       removeExpiredTokens();
+
+      //Function to get email from token
+      function getEmailFromToken(reqToken) {
+        for (let [email, { token }] of resetTokens.entries()) {
+          if (token === reqToken) {
+            return email;
+          }
+        }
+        return null; // Return null if no matching token is found
+      }
   
       // Find the email address associated with the given reset token
-      const { email, createdAt } = Array.from(resetTokens.entries())
-        .find(([key, { token: storedToken }]) => storedToken === token) || {};
+      const email = getEmailFromToken(reqToken);
   
-      if (!email || Date.now() - createdAt > TOKEN_TIMEOUT) {
+      if (!email) {
         // If no email address is found, or the token is expired, send an error response
-        res.status(400).json({ message: 'Invalid reset token' });
-        return;
+        return message = { message: 'Invalid reset token' };
       }
   
       // Hash the new password
@@ -70,12 +85,13 @@ async function resetPass(req, res, next) {
   
       // Remove the reset token from the in-memory data store
       resetTokens.delete(email);
-  
-      // Send a success response
-      res.status(200).json({ message: 'Password reset successfully' });
+
+      // return message = {message: 'Password reset successfully' };
+      message = { message: 'Password reset successfully' };
+      return message;
     } catch (error) {
       // Handle errors
-      next(error);
+      throw error;
     }
 };
 

@@ -4,7 +4,7 @@ const service = require('../models/resetPassMod');
 
 //Forgot Password Request
 const forgotPass = (req, res) => {
-    service.forgotPassReq(req.body)
+    service.forgotPassReq(req)
         .then((data) => {
             res.status(200).json(data);
         })

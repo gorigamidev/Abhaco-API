@@ -1,10 +1,9 @@
 const nodemailer = require('nodemailer');
   // Create a URL for the password reset page
-  const resetUrl = `https://yourwebsite.com/reset-password?token=`;
+  const resetUrl = `http://localhost:5050/reset-password/`;
 
 
-  class EmailService {
-    static async sendPasswordResetEmail(email, resetToken) {
+async function sendPasswordResetEmail(email, resetToken) {
       try {
         const transporter = nodemailer.createTransport({
           host: process.env.EMAIL_HOST,
@@ -21,10 +20,14 @@ const nodemailer = require('nodemailer');
           to: email,
           subject: 'Password Reset Request',
           html: `
-            <p>Hello,</p>
-            <p>You have requested a password reset for your account. Click the link below to reset your password:</p>
+          <main style="background:red">
+            <h1>Hello,</h1>
+            <p>You have requested a password reset for your account:</p>
+            <p>Copy the code below and paste it in the reset password page</p>
+            <h3>${resetToken}</h3>
             <p><a href="${resetUrl}">${resetUrl}</a></p>
             <p>If you did not make this request, you can safely ignore this email.</p>
+          </main>
           `
         };
   
@@ -33,8 +36,7 @@ const nodemailer = require('nodemailer');
         console.error('Error sending password reset email:', error);
         throw error;
       }
-    }
-  }
+    };
   
 
-module.exports = { EmailService };
+module.exports = { sendPasswordResetEmail };

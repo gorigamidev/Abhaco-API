@@ -24,7 +24,28 @@ const resetPassReq = (req, res) => {
         });
 };
 
+/**
+ * @swagger
+ * /api/service/forgot:
+ *   post:
+ *     summary: Forgot Password Request
+ *     description: Method for request forgot password
+ *     responses:
+ *       200:
+ *         description: An object of user forgot password request
+ */
 router.post('/forgot', forgotPass);
+
+/**
+ * @swagger
+ * /api/service/reset:
+ *   post:
+ *     summary: Reset Password Request
+ *     description: Method for request reset password
+ *     responses:
+ *       200:
+ *         description: A object of user reset password request
+ */
 router.post('/reset', resetPassReq);
 
 module.exports = router;

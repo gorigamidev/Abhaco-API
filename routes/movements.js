@@ -129,21 +129,148 @@ const deleteWhere = (req, res) => {
 };
 
 //routes
+/**
+ * @swagger
+ * /api/movements/:
+ *   get:
+ *     summary: List of all movements
+ *     description: Get all movements in the database
+ *     responses:
+ *       200:
+ *         description: An object of all movements
+ */
 router.get('/', listAll);
+
+/**
+ * @swagger
+ * /api/movements/{idMovement}:
+ *   get:
+ *     summary: List of a movement by id
+ *     description: Get a single movement in the database
+ *     responses:
+ *       200:
+ *         description: An object of a movement by id
+ */
 router.get('/:idMovement', listWhere);
+
+/**
+ * @swagger
+ * /api/movements/user/{idUser}:
+ *   get:
+ *     summary: List of all movements by user
+ *     description: Get all movements in the database by user
+ *     responses:
+ *       200:
+ *         description: An object of all movements by user
+ */
 router.get('/user/:idUser', listWhere);
+
+/**
+ * @swagger
+ * /api/movements/{type}/{idUser}:
+ *   get:
+ *     summary: List of all movements by type and user
+ *     description: Get all movements in the database by type and user
+ *     responses:
+ *       200:
+ *         description: An object of all movements by type and user
+ */
 router.get('/typeNuser/:type/:idUser', listWhere);
 
+/**
+ * @swagger
+ * /api/movements/sum/{year}/{month}/{idUser}/{type}:
+ *   get:
+ *     summary: Sum of all movements in a year-month by user and type
+ *     description: Get a sum of all movements in the database in a year-month by user and type
+ *     responses:
+ *       200:
+ *         description: An object of sum of all movements in a year-month by user and type
+ */
 router.get('/sum/:year/:month/:idUser/:type', listWhereSum);
-router.get('/sumday/:year/:month/:idUser/:type', listWhereSumDay);
-router.get('/summonth/:year/:idUser/:type', listWhereSumMonth);
+
+/**
+ * @swagger
+ * /api/movements/listday/{year}/{month}/{idUser}/{type}:
+ *   get:
+ *     summary: List of all movements in a year-month by user and type
+ *     description: Get a list of all movements in the database in a year-month by user and type
+ *     responses:
+ *       200:
+ *         description: An object of all movements in a year-month by user and type
+ */
+router.get('/listday/:year/:month/:idUser/:type', listWhereSumDay);
+
+/**
+ * @swagger
+ * /api/movements/listmonth/{year}/{idUser}/{type}:
+ *   get:
+ *     summary: List of all movements in a year by user and type
+ *     description: Get a list of all movements in the database in a year by user and type
+ *     responses:
+ *       200:
+ *         description: An object of all movements in a year by user and type
+ */
+router.get('/listmonth/:year/:idUser/:type', listWhereSumMonth);
+
+/**
+ * @swagger
+ * /api/movements/sumyear/{year}/{idUser}/{type}:
+ *   get:
+ *     summary: Sum of all movements in a year by user and type
+ *     description: Get a sum of all movements in the database in a year by user and type
+ *     responses:
+ *       200:
+ *         description: An object of sum of all movements in a year by user and type
+ */
 router.get('/sumyear/:year/:idUser/:type', listWhereSumYear);
 
+/**
+ * @swagger
+ * /api/movements/{new}:
+ *   post:
+ *     summary: Create a new movement
+ *     description: Create a new movement in the database
+ *     responses:
+ *        200:
+ *          description: Create an movement
+ */
 router.post('/new/:type', create);
 
+/**
+ * @swagger
+ * /api/movements/update/{idMovement}:
+ *   put:
+ *     summary: Update a movement by id
+ *     description: Update a movement by id in the database
+ *     responses:
+ *       200:
+ *         description: Update a movement by id
+ */
 router.put('/update/:idMovement', update);
 
+/**
+ * @swagger
+ * /api/movements/deleteAdmin/{idMovement}:
+ *   delete:
+ *     summary: Delete a movement by id if you are admin of the users Table
+ *     description: Delete a movement by id in the database if you are admin of the users Table
+ *     responses:
+ *       200:
+ *       description: Delete a movement by id if you are admin of the users Table
+ */
 router.delete('/deleteAdmin/:idMovement', deleteAdmin);
+
+/**
+ * @swagger
+ * /api/movements/delete/{idMovement}:
+ *   delete:
+ *     summary: Delete a movement by id
+ *     description: Delete a movement by id in the database
+ *     responses:
+ *       200:
+ *       description: Delete a movement by id
+ */
 router.delete('/delete/:idMovement', deleteWhere);
 
 

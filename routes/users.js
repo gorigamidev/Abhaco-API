@@ -39,10 +39,18 @@ function generateUserId() {
     const randomNum = Math.floor(Math.random() * 9999999) + 1;
     return randomNum;
   }
+
+const bcrypt = require('bcrypt');
   
 const create = (req, res) => {
     const userObject = req.body;
     userObject.idUser = generateUserId();
+
+    // Hash the password before saving it to the database
+    const saltRounds = 10;
+    const passwordHash = bcrypt.hashSync(userObject.password, saltRounds);
+    userObject.password = passwordHash;
+
     service
       .create(userObject)
       .then((data) => {

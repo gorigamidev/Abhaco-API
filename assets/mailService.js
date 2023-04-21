@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
   // Create a URL for the password reset page
-  const resetUrl = `http://localhost:5050/reset-password/`;
+  const resetUrl = `http://localhost:5173/resetpassword/`;
 
 
 async function sendPasswordResetEmail(email, resetToken) {

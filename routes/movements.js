@@ -175,7 +175,7 @@ router.get('/user/:idUser', listWhere);
  *       200:
  *         description: An object of all movements by type and user
  */
-router.get('/typeNuser/:type/:idUser', listWhere);
+router.get('/:type/:idUser', listWhere);
 
 /**
  * @swagger
